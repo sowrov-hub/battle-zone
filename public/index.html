@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Battle Zone Mymensingh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: loud, confident gaming lounge — short lines, big uppercase titles
+   IDEA: the Arcade store look: dark room, purple glow, purple hero card over a lit scene
+   PICTURE: an illustrated night setup (TV glowing, PS5 tower, controller) behind the purple card
+   COLOUR and TYPE: #060506 black, #8858ED purple, white pills; Montserrat 800 caps + Roboto
+   LAYOUT: header, hero, live stations as product tiles, booking console, console tiles, purple banner, visit, footer */
+:root{color-scheme:dark;--bg:#060506;--panel:#141217;--panel2:#1d1a22;--line:#2c2833;--ink:#ffffff;--mute:#a9a3b5;--p:#8858ed;--p2:#a67dff;--p3:#5b33c4;--pink:#ff4fa3}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Roboto,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,.brand{font-family:Montserrat,system-ui,sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+h2.sec{font-size:clamp(28px,4vw,44px);font-weight:800;text-transform:uppercase}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--p2);outline-offset:2px}
+html{scroll-padding-top:80px;scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(40px,6vw,88px) max(5vw,16px)}
+.pill{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 24px;border-radius:999px;border:0;background:#fff;color:var(--p3);font:700 15px Montserrat,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap}
+.pill.purple{background:var(--p);color:#fff}.pill:hover{filter:brightness(1.08)}
+.head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(6,5,6,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06);padding:10px max(5vw,16px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:19px;letter-spacing:.02em}
+.brand svg{width:38px;height:38px}
+nav{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+nav a:not(.pill){color:#fff;text-decoration:none;padding:10px 12px;font:500 14px Montserrat,sans-serif;border-radius:10px}
+nav a:not(.pill):hover{background:rgba(255,255,255,.08)}
+nav .pill{margin-left:8px;min-height:40px;padding:8px 18px}
+/* hero */
+.hero{position:relative;min-height:clamp(540px,78vh,720px);display:grid;align-items:center;padding:48px max(5vw,16px);overflow:hidden;isolation:isolate}
+.hero>svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:140px;background:linear-gradient(transparent,var(--bg));z-index:-1}
+.hcard{max-width:560px;background:var(--p);border-radius:24px;padding:clamp(26px,4vw,44px);box-shadow:0 30px 80px -20px rgba(80,30,200,.7)}
+.hcard p{margin:0}.hcard .kick{font:500 17px Montserrat,sans-serif;margin-bottom:12px}
+.hcard h1{font-size:clamp(38px,6vw,64px);font-weight:800;text-transform:uppercase;margin-bottom:14px}
+.hcard .sub{font-size:17px;margin-bottom:26px;opacity:.95}
+.hfacts{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.hfacts span{background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px;font-size:14px;font-weight:500}
+/* stations */
+.grid5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.st{display:grid;gap:8px;text-align:center}
+.art{aspect-ratio:1;border-radius:20px;background:radial-gradient(circle at 50% 80%,#3a2370,#120c1e 70%);display:grid;place-items:center;position:relative;overflow:hidden}
+.art svg{width:72%;height:72%}
+.badge{position:absolute;top:12px;left:12px;padding:3px 10px;border-radius:999px;font:700 12px Montserrat,sans-serif;background:var(--p)}
+.busy .badge{background:var(--pink)}.off .badge{background:#4d4d4d}
+.st b{font:700 18px Montserrat,sans-serif;margin-top:6px}
+.st .s{color:var(--mute);font-size:14px}
+.st .pill{justify-self:center;margin-top:4px}
+/* booking */
+.bookband{background:linear-gradient(180deg,var(--bg),#0f0b18 30%,#0f0b18 70%,var(--bg))}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;display:grid;grid-template-columns:minmax(0,1fr) 350px;overflow:hidden}
+.pick{padding:clamp(18px,3vw,34px);display:grid;gap:24px}
+.step h3{font:700 14px Montserrat,sans-serif;margin:0 0 10px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{min-height:44px;border:1.5px solid var(--line);background:var(--panel2);border-radius:16px;padding:14px 16px;text-align:left;cursor:pointer;display:grid;gap:2px}
+.opt b{font:800 24px Montserrat,sans-serif}.opt span{font-size:14px;color:var(--mute)}
+.opt.on{border-color:var(--p);background:rgba(136,88,237,.18)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.chip{flex:none;min-height:44px;padding:8px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--panel2);cursor:pointer;font:600 15px Montserrat,sans-serif;white-space:nowrap;text-align:left}
+.chip small{display:block;font:400 13px Roboto,sans-serif;color:var(--mute)}
+.chip.on{background:var(--p);border-color:var(--p)}.chip.on small{color:#fff;opacity:.85}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(116px,1fr));gap:8px}
+.slot{min-height:58px;border:1.5px solid var(--line);border-radius:14px;background:var(--panel2);cursor:pointer;padding:8px 12px;text-align:left;display:grid}
+.slot b{font:700 15px Montserrat,sans-serif;white-space:nowrap}.slot span{font-size:13px;color:var(--mute)}
+.slot.low span{color:var(--pink);font-weight:700}
+.slot:hover:not(:disabled){border-color:var(--p2)}
+.slot:disabled{cursor:not-allowed;opacity:.35}
+.slot.on{background:var(--p);border-color:var(--p)}.slot.on span{color:#fff}
+.empty{color:var(--mute);margin:0}
+.ticket{background:var(--panel2);border-left:1.5px dashed var(--line);padding:clamp(18px,3vw,30px);display:flex;flex-direction:column;gap:14px}
+.ticket h2{font-size:24px;font-weight:800;text-transform:uppercase}
+dl.rows{display:grid;gap:9px;margin:0}
+.rows div{display:flex;justify-content:space-between;gap:10px;font-size:15px}
+.rows dt{color:var(--mute)}.rows dd{margin:0;font-weight:700;text-align:right;white-space:nowrap}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1.5px dashed var(--line);padding-top:14px;color:var(--mute)}
+.total b{font:800 clamp(30px,4vw,40px) Montserrat,sans-serif;white-space:nowrap;color:#fff}
+form{display:grid;gap:12px}
+label{display:grid;gap:6px;font-size:14px;font-weight:500;color:var(--mute)}
+input,select{min-height:46px;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg);font-size:16px;width:100%;color:#fff}
+input:focus,select:focus{border-color:var(--p);outline:none}
+.btn{min-height:50px;border:0;border-radius:999px;background:var(--p);color:#fff;font:700 16px Montserrat,sans-serif;cursor:pointer;padding:12px 20px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:transparent;border:1.5px solid var(--line)}
+.err{color:var(--pink);font-size:14px;margin:0;min-height:1.2em;font-weight:500}
+.note{font-size:13px;color:var(--mute);margin:14px 0 0}
+.code{font:800 34px Montserrat,sans-serif;color:var(--p2)}
+/* consoles */
+.cons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.con{border-radius:24px;overflow:hidden;background:var(--panel);border:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.con .art{aspect-ratio:auto;min-height:260px;border-radius:0}
+.con .txt{padding:clamp(20px,3vw,32px);display:grid;align-content:center;gap:8px}
+.con h3{font-size:30px;font-weight:800}.con .amt{font:800 clamp(36px,5vw,48px) Montserrat,sans-serif;white-space:nowrap;line-height:1}
+.con p{margin:0;color:var(--mute)}.con .pill{justify-self:start;margin-top:8px}
+/* banner */
+.banner{border-radius:28px;padding:clamp(32px,6vw,72px);background:radial-gradient(circle at 85% 20%,#c06bff 0,transparent 45%),radial-gradient(circle at 10% 90%,#ff4fa3 0,transparent 40%),linear-gradient(120deg,#3d1d9a,#8858ed);display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:center}
+.banner h2{font-size:clamp(32px,5vw,56px);font-weight:900;text-transform:uppercase}
+.banner p{margin:12px 0 0;font-size:17px;opacity:.95}
+.steps{display:grid;gap:10px;margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{background:rgba(6,5,6,.35);border-radius:16px;padding:14px 16px;font-weight:500;display:flex;gap:12px;align-items:center}
+.steps li::before{counter-increment:s;content:counter(s);flex:none;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--p3);display:grid;place-items:center;font:800 14px Montserrat,sans-serif}
+.visit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.visit div{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px}
+.visit b{display:block;font:800 20px Montserrat,sans-serif;margin-bottom:6px;text-transform:uppercase}.visit p{margin:0;color:var(--mute)}
+footer{background:#000;padding:56px max(5vw,16px) 28px;color:#fff;font-size:14px}
+.fgrid{display:grid;grid-template-columns:1.2fr repeat(3,minmax(0,1fr));gap:24px;padding-bottom:36px;border-bottom:1px solid #333}
+.fgrid h4{font:700 15px Montserrat,sans-serif;margin:0 0 14px}.fgrid a,.fgrid p{display:block;color:#ddd;text-decoration:none;margin:0 0 10px}
+.fgrid a:hover{color:#fff}.fgrid .brand{display:flex;color:#fff}
+.fbot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:20px;color:var(--mute)}
+/* admin */
+#admin{display:none}body.adm #site{display:none}body.adm #admin{display:block}
+.gate{max-width:400px;margin:0 auto}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}
+.stat b{display:block;font:800 clamp(24px,3vw,34px) Montserrat,sans-serif;white-space:nowrap}.stat span{font-size:14px;color:var(--mute)}
+.tlw{overflow-x:auto;border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:22px;background:var(--panel)}
+.tl{min-width:720px;display:grid;grid-template-columns:64px minmax(0,1fr);row-gap:8px}
+.tl .lab{font:700 14px Montserrat,sans-serif;align-self:center}
+.ticks{position:relative;height:18px;font-size:12px;color:var(--mute)}.ticks span{position:absolute;white-space:nowrap}
+.track{position:relative;height:48px;border-radius:10px;background:repeating-linear-gradient(90deg,var(--panel2) 0,var(--panel2) calc(100%/12 - 1px),var(--line) calc(100%/12 - 1px),var(--line) calc(100%/12))}
+.bar{position:absolute;top:4px;bottom:4px;border-radius:8px;background:var(--p);color:#fff;font-size:12px;font-weight:700;padding:6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;line-height:1.2}
+.bar.arrived{background:var(--pink)}.bar.done{background:#5d5868}.bar.blocked{background:repeating-linear-gradient(45deg,#3e3a46 0 6px,#4c4756 6px 12px)}
+.cols{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:20px;align-items:start}
+.side{display:grid;gap:16px}
+.box{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:18px;display:grid;gap:12px}.box h3{font-size:20px;font-weight:800}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{color:var(--mute);font-weight:500}td.n{text-align:right;white-space:nowrap}
+small{color:var(--mute)}
+tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
+.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;background:var(--panel2);white-space:nowrap}
+.t-arrived{background:var(--pink)}.t-booked{background:var(--p)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.mini{min-height:44px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--panel2);cursor:pointer;font:700 13px Montserrat,sans-serif}
+.adhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.adhead h1{font-size:clamp(30px,4vw,46px);font-weight:800;text-transform:uppercase}
+@media(max-width:980px){.grid5{grid-template-columns:repeat(3,minmax(0,1fr))}.panel,.cols,.banner{grid-template-columns:1fr}.ticket{border-left:0;border-top:1.5px dashed var(--line)}.cons{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.visit{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid5{grid-template-columns:repeat(2,minmax(0,1fr))}nav a:not(.pill){display:none}.hero{align-items:end;min-height:600px}}
+@media(max-width:600px){.con{grid-template-columns:1fr}.con .art{min-height:200px}table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:6.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6em;margin-inline-start:-6.5em;color:var(--mute)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:no-preference){.glow{animation:gl 4s ease-in-out infinite alternate}@keyframes gl{from{opacity:.55}to{opacity:1}}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head><body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cfc8e0"/></linearGradient>
+  <linearGradient id="gpad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2533"/><stop offset="1" stop-color="#0c0a10"/></linearGradient>
+  <symbol id="ps5" viewBox="0 0 200 200"><ellipse cx="100" cy="186" rx="62" ry="8" fill="#000" opacity=".5"/>
+    <path d="M58 20c14-6 26-6 34-2l4 160c-10 4-28 4-40-2C48 120 46 60 58 20z" fill="url(#g5)"/>
+    <path d="M142 20c-14-6-26-6-34-2l-4 160c10 4 28 4 40-2 8-56 10-116-2-156z" fill="url(#g5)"/>
+    <rect x="92" y="16" width="16" height="164" rx="6" fill="#111"/><rect x="97" y="40" width="6" height="12" rx="2" fill="#8858ed" class="glow"/>
+    <path d="M60 24c-6 40-6 100 2 150" stroke="#fff" stroke-width="2" fill="none" opacity=".7"/></symbol>
+  <symbol id="ps4" viewBox="0 0 200 200"><ellipse cx="100" cy="150" rx="84" ry="10" fill="#000" opacity=".5"/>
+    <path d="M20 96l100-14 64 22-100 18z" fill="#2f2b38"/><path d="M20 96l64 26v26l-64-24z" fill="#16131c"/><path d="M84 122l100-18v24l-100 20z" fill="#0d0b12"/>
+    <path d="M20 108l64 26 100-18" stroke="#8858ed" stroke-width="2.5" fill="none" class="glow"/>
+    <path d="M56 92l80-11" stroke="#47415a" stroke-width="2"/></symbol>
+  <symbol id="pad" viewBox="0 0 200 130"><path d="M52 14h96c24 0 38 20 44 50l5 32c3 20-18 32-32 18l-20-22H55l-20 22c-14 14-35 2-32-18l5-32C14 34 28 14 52 14z" fill="url(#gpad)" stroke="#3d3648" stroke-width="2"/>
+    <g fill="#d9d2ea"><rect x="38" y="44" width="26" height="8" rx="3"/><rect x="47" y="35" width="8" height="26" rx="3"/></g>
+    <g><circle cx="150" cy="36" r="6" fill="#4fd1ff"/><circle cx="166" cy="50" r="6" fill="#ff4fa3"/><circle cx="134" cy="50" r="6" fill="#ff9f43"/><circle cx="150" cy="64" r="6" fill="#a67dff"/></g>
+    <circle cx="76" cy="78" r="14" fill="#0b0a0e" stroke="#47415a" stroke-width="2"/><circle cx="124" cy="78" r="14" fill="#0b0a0e" stroke="#47415a" stroke-width="2"/>
+    <rect x="84" y="22" width="32" height="20" rx="5" fill="#1a1720" stroke="#8858ed" stroke-width="1.5" class="glow"/></symbol>
+  <symbol id="logo" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#fff"/><path d="M14 11h9c4 0 6 2 6 5 0 2-1 3.4-2.6 4 2 .6 3.4 2.2 3.4 4.6 0 3.4-2.6 5.4-6.6 5.4H14z" fill="#060506"/><circle cx="21" cy="16.4" r="1.9" fill="#fff"/><circle cx="21.8" cy="24.4" r="2.1" fill="#fff"/></symbol>
+</defs></svg>
+
+<div id="site">
+<header class="top"><div class="wrap">
+  <a class="brand" href="#home"><svg><use href="#logo"/></svg>BATTLE ZONE</a>
+  <nav><a href="#stations">Stations</a><a href="#consoles">Prices</a><a href="#visit">Visit</a><a class="pill purple" href="#book">Book now</a></nav>
+</div></header>
+
+<section class="hero" id="home">
+  <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="h1" cx="70%" cy="40%" r="60%"><stop offset="0" stop-color="#5b2fd0"/><stop offset=".55" stop-color="#1a0f33"/><stop offset="1" stop-color="#060506"/></radialGradient>
+      <linearGradient id="scr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b1460"/><stop offset=".55" stop-color="#c23dff"/><stop offset="1" stop-color="#ff7a59"/></linearGradient>
+      <linearGradient id="flr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#160d2a"/><stop offset="1" stop-color="#060506"/></linearGradient>
+      <filter id="blur"><feGaussianBlur stdDeviation="40"/></filter>
+    </defs>
+    <rect width="1440" height="760" fill="url(#h1)"/>
+    <g opacity=".25" stroke="#8858ed">
+      <path d="M0 120h1440M0 240h1440M0 360h1440" stroke-width="1"/>
+      <path d="M200 0v520M480 0v520M760 0v520M1040 0v520M1320 0v520" stroke-width="1"/>
+    </g>
+    <rect y="520" width="1440" height="240" fill="url(#flr)"/>
+    <ellipse cx="1020" cy="300" rx="380" ry="200" fill="#a64bff" opacity=".45" filter="url(#blur)" class="glow"/>
+    <!-- TV -->
+    <rect x="740" y="120" width="560" height="320" rx="14" fill="#0a0810" stroke="#2c2833" stroke-width="6"/>
+    <rect x="756" y="136" width="528" height="288" rx="6" fill="url(#scr)"/>
+    <circle cx="1020" cy="300" r="70" fill="#ffd36e" opacity=".9"/>
+    <path d="M756 330l120-60 90 50 110-80 120 70 88-40v154H756z" fill="#3a1a6e"/>
+    <path d="M756 360l150-40 140 40 140-50 98 30v84H756z" fill="#1e0d3d"/>
+    <g stroke="#ff9bd5" stroke-width="2" opacity=".8"><path d="M1020 424L900 360M1020 424l120-64M1020 424v-64"/></g>
+    <rect x="990" y="440" width="60" height="40" fill="#14111a"/><rect x="900" y="478" width="240" height="14" rx="5" fill="#1c1824"/>
+    <!-- TV stand + consoles -->
+    <rect x="690" y="500" width="660" height="80" rx="10" fill="#120f18"/><rect x="690" y="500" width="660" height="6" fill="#8858ed" opacity=".7" class="glow"/>
+    <use href="#ps5" x="1250" y="295" width="210" height="210"/>
+    <use href="#ps4" x="700" y="418" width="170" height="170"/>
+    <use href="#pad" x="860" y="560" width="300" height="200"/>
+    <use href="#pad" x="1160" y="600" width="220" height="150" transform="rotate(12 1270 675)"/>
+  </svg>
+  <div class="wrap" style="width:100%">
+    <div class="hcard">
+      <p class="kick">Mymensingh's PlayStation lounge</p>
+      <h1>Book your seat. Play today.</h1>
+      <p class="sub">Pick a PS5 or PS4, choose your time and walk straight in. 30 minutes minimum.</p>
+      <a class="pill" href="#book">Book a slot</a>
+      <div class="hfacts"><span>Notun Bazar, Mymensingh</span><span>3 × PS5</span><span>2 × PS4</span><span>Open every day, 10 am – 10 pm</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="stations"><div class="wrap">
+  <div class="head"><h2 class="sec">On the floor now</h2><a class="pill" href="#book">Book a slot</a></div>
+  <div class="grid5" id="floor"></div>
+</div></section>
+
+<section class="band bookband" id="book"><div class="wrap">
+  <div class="head"><h2 class="sec">Book your slot</h2></div>
+  <div class="panel">
+    <div class="pick">
+      <div class="step"><h3>Console</h3>
+        <div class="seg">
+          <button type="button" class="opt" data-act="type" data-v="ps5"><b>PS5</b><span>3 stations · <span id="p5h"></span></span></button>
+          <button type="button" class="opt" data-act="type" data-v="ps4"><b>PS4</b><span>2 stations · <span id="p4h"></span></span></button>
+        </div></div>
+      <div class="step"><h3>Day</h3><div class="chips" id="days"></div></div>
+      <div class="step"><h3>How long</h3><div class="chips" id="durs"></div></div>
+      <div class="step"><h3>Start time</h3><div class="slots" id="slots"></div></div>
+    </div>
+    <aside class="ticket">
+      <div id="tForm" style="display:grid;gap:14px">
+        <h2>Your booking</h2>
+        <dl class="rows">
+          <div><dt>Console</dt><dd id="tConsole"></dd></div>
+          <div><dt>Day</dt><dd id="tDay"></dd></div>
+          <div><dt>Time</dt><dd id="tTime"></dd></div>
+          <div><dt>Length</dt><dd id="tDur"></dd></div>
+        </dl>
+        <div class="total"><span>Pay at the counter</span><b id="tTotal"></b></div>
+        <form id="bookForm" novalidate>
+          <label for="nm">Your name<input id="nm" autocomplete="name" maxlength="60" placeholder="Rahim"></label>
+          <label for="ph">Phone<input id="ph" type="tel" autocomplete="tel" inputmode="numeric" maxlength="16" placeholder="01712345678"></label>
+          <p class="err" id="err" role="alert"></p>
+          <button class="btn" id="go">Confirm booking</button>
+        </form>
+      </div>
+      <div id="tDone" hidden style="display:none;gap:12px">
+        <h2>You're booked</h2>
+        <p style="margin:0;color:var(--mute)">Show this code at the counter.</p>
+        <div class="code" id="dCode"></div>
+        <dl class="rows">
+          <div><dt>Station</dt><dd id="dSt"></dd></div>
+          <div><dt>Day</dt><dd id="dDay"></dd></div>
+          <div><dt>Time</dt><dd id="dTime"></dd></div>
+          <div><dt>Pay</dt><dd id="dPay"></dd></div>
+        </dl>
+        <button type="button" class="btn ghost" data-act="again">Book another</button>
+      </div>
+    </aside>
+  </div>
+  <p class="note" id="mode"></p>
+</div></section>
+
+<section class="band" id="consoles"><div class="wrap">
+  <div class="head"><h2 class="sec">Choose your console</h2></div>
+  <div class="cons">
+    <div class="con"><div class="art"><svg><use href="#ps5"/></svg></div><div class="txt"><h3>PS5</h3><div class="amt" id="pp5"></div><p>per hour · <span id="pp5h"></span> for 30 min</p><button type="button" class="pill purple" data-act="pick" data-v="ps5">Book PS5</button></div></div>
+    <div class="con"><div class="art"><svg><use href="#ps4"/></svg></div><div class="txt"><h3>PS4</h3><div class="amt" id="pp4"></div><p>per hour · <span id="pp4h"></span> for 30 min</p><button type="button" class="pill purple" data-act="pick" data-v="ps4">Book PS4</button></div></div>
+  </div>
+  
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <div class="banner">
+    <div><h2>Skip the wait</h2><p>Book online, show your code, start playing. Walk-ins welcome when a seat is free.</p></div>
+    <ol class="steps"><li>Pick console, day and time</li><li>Get your booking code</li><li>Pay at the counter and play</li></ol>
+  </div>
+</div></section>
+
+<section class="band" id="visit" style="padding-top:0"><div class="wrap">
+  <div class="head"><h2 class="sec">Visit Battle Zone</h2></div>
+  <div class="visit">
+    <div><b>Every day</b><p>10:00 am to 10:00 pm, Friday included.</p></div>
+    <div><b>5 stations</b><p>3 × PS5 and 2 × PS4, ready to play.</p></div>
+    <div><b>Notun Bazar</b><p>Notun Bazar, Mymensingh. Pay at the counter when you arrive.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="#home" style="margin-bottom:12px"><svg><use href="#logo"/></svg>BATTLE ZONE</a><p style="color:var(--mute)">PlayStation gaming zone at Notun Bazar, Mymensingh.</p></div>
+    <div><h4>Play</h4><a href="#book">Book a slot</a><a href="#stations">Live floor</a><a href="#consoles">Prices</a></div>
+    <div><h4>Hours</h4><p>Every day</p><p>10:00 am – 10:00 pm</p></div>
+    <div><h4>Staff</h4><a href="#admin">Staff login</a></div>
+  </div>
+  <div class="fbot"><span>© Battle Zone Mymensingh</span><span>Book online · Pay at the counter</span></div>
+</div></footer>
+</div>
+
+<div id="admin">
+<header class="top"><div class="wrap">
+  <span class="brand"><svg><use href="#logo"/></svg>BATTLE ZONE · ADMIN</span>
+  <nav><a class="pill" href="#home">View site</a></nav>
+</div></header>
+<section class="band"><div class="wrap">
+  <div id="gate" class="gate box">
+    <h3>Staff login</h3>
+    <form id="gateForm"><label for="pin">Password<input id="pin" type="password" autocomplete="current-password"></label>
+    <p class="err" id="gerr"></p><button class="btn">Open panel</button></form>
+  </div>
+  <div id="panelA" hidden>
+    <div class="adhead"><h1>Bookings</h1><div class="acts"><a class="mini" style="display:inline-grid;place-items:center;text-decoration:none" href="/api/admin/export.csv">Download CSV</a><button type="button" class="mini" data-act="refresh">Refresh</button><button type="button" class="mini" data-act="logout">Log out</button></div></div>
+    <div class="chips" id="adays"></div>
+    <div class="stats" id="stats"></div>
+    <div class="tlw"><div class="tl" id="tl"></div></div>
+    <div class="cols">
+      <div class="box" style="overflow:hidden"><h3>Day list</h3>
+        <table class="stack"><thead><tr><th>Time</th><th>Seat</th><th>Customer</th><th class="n">Total</th><th>Status</th><th>Actions</th></tr></thead><tbody id="list"></tbody></table>
+      </div>
+      <div class="side">
+        <form class="box" id="addForm"><h3>Walk-in or block</h3>
+          <div class="two"><label for="ak">Type<select id="ak"><option value="walkin">Walk-in</option><option value="blocked">Block seat</option></select></label>
+          <label for="as">Station<select id="as"></select></label></div>
+          <div class="two"><label for="at">Start<select id="at"></select></label><label for="ad">Length<select id="ad"></select></label></div>
+          <label for="an">Name or reason<input id="an" maxlength="60" placeholder="Walk-in"></label>
+          <label for="ap">Phone (optional)<input id="ap" type="tel" maxlength="16"></label>
+          <p class="err" id="aerr"></p><button class="btn">Add to the day</button>
+        </form>
+        <form class="box" id="cfgForm"><h3>Prices per hour</h3>
+          <div class="two"><label for="cf5">PS5 (৳)<input id="cf5" type="number" min="0" step="10"></label><label for="cf4">PS4 (৳)<input id="cf4" type="number" min="0" step="10"></label></div>
+          <p class="err" id="cmsg" style="color:var(--mute)"></p><button class="btn ghost">Save prices</button>
+        </form>
+        <form class="box" id="pwForm"><h3>Change password</h3>
+          <label for="pw1">Current password<input id="pw1" type="password" autocomplete="current-password"></label>
+          <label for="pw2">New password (8+ characters)<input id="pw2" type="password" autocomplete="new-password"></label>
+          <p class="err" id="pmsg"></p><button class="btn ghost">Update password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div></section>
+</div>
+
+<script>
+{
+const OPEN=600,CLOSE=1320,STEP=30;
+const STATIONS=[['PS5-1','ps5'],['PS5-2','ps5'],['PS5-3','ps5'],['PS4-1','ps4'],['PS4-2','ps4']].map(([id,t])=>({id,t}));
+const DURS=[30,60,90,120,180],NAMES={ps5:'PS5',ps4:'PS4'};
+const STL={booked:'Booked',arrived:'Playing',done:'Done',cancelled:'Cancelled',blocked:'Blocked'};
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const fmt=m=>{let h=Math.floor(m/60);const ap=h>=12&&h<24?'pm':'am';h=h%12||12;return h+':'+pad(m%60)+' '+ap};
+const durTxt=d=>d<60?d+' min':(d/60)+(d===60?' hour':' hours');
+const tk=n=>'৳'+Math.round(n).toLocaleString('en-IN');
+const S={type:'ps5',day:0,dur:60,start:null,pub:[],adm:[],cfg:{ps5:150,ps4:100},days:[],srvMin:null,srvAt:0,admin:false,aDay:0,busy:false,doneB:null};
+{const d=new Date();for(let i=0;i<7;i++){const x=new Date(d);x.setDate(d.getDate()+i);S.days.push(x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate()))}}
+const dObj=i=>new Date(S.days[i]+'T12:00:00');
+const dayLbl=i=>i===0?'Today':i===1?'Tomorrow':dObj(i).toLocaleDateString('en-GB',{weekday:'long'});
+const dayDate=i=>dObj(i).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+const nowMin=()=>{if(S.srvMin==null){const n=new Date();return n.getHours()*60+n.getMinutes()}return Math.floor(S.srvMin+(Date.now()-S.srvAt)/60000)};
+const priceOf=(t,d)=>Math.round(S.cfg[t]*d/60);
+const live=date=>S.pub.filter(b=>b.date===date);
+const clash=(a,s,d)=>a.start<s+d&&s<a.start+a.dur;
+const freeSt=(date,type,s,d)=>STATIONS.filter(x=>x.t===type&&!live(date).some(b=>b.station===x.id&&clash(b,s,d)));
+const setMode=t=>{$('#mode').textContent=t};
+
+async function api(path,opt={}){
+  const r=await fetch(path,{method:opt.method||'GET',headers:opt.body?{'Content-Type':'application/json'}:{},body:opt.body?JSON.stringify(opt.body):undefined,credentials:'same-origin'});
+  let j={};try{j=await r.json()}catch(e){}
+  if(!r.ok){if(r.status===401&&path.startsWith('/api/admin/')&&path!=='/api/admin/login'){S.admin=false;renderAdmin()}throw Object.assign(new Error(j.error||'Something went wrong. Try again.'),{status:r.status})}
+  return j}
+
+async function loadPublic(){
+  try{const j=await api('/api/public');
+    S.days=j.days;S.srvMin=j.now;S.srvAt=Date.now();S.cfg=j.prices;
+    S.pub=(j.busy||[]).map(b=>({date:String(b.date),start:+b.start,dur:+b.dur,station:String(b.station)}));
+    setMode('');renderAll()}
+  catch(e){setMode("Can't reach the booking server right now. Refresh in a moment.")}}
+async function loadAdmin(){
+  if(!S.admin)return;
+  try{const j=await api('/api/admin/bookings?date='+encodeURIComponent(S.days[S.aDay]));S.adm=j.bookings||[];renderAdmin()}catch(e){}}
+
+function validStarts(){const date=S.days[S.day],nm=nowMin(),out=[];
+  for(let s=OPEN;s+S.dur<=CLOSE;s+=STEP){const past=S.day===0&&s<nm;out.push({s,past,f:past?0:freeSt(date,S.type,s,S.dur).length})}return out}
+function renderSlots(){
+  const total=STATIONS.filter(x=>x.t===S.type).length,list=validStarts();
+  if(S.start!=null&&!list.some(x=>x.s===S.start&&x.f))S.start=null;
+  $('#slots').innerHTML=list.some(x=>!x.past)?list.map(x=>`<button type="button" class="slot${x.past?' past':!x.f?' full':x.f===1?' low':''}${S.start===x.s?' on':''}" data-act="slot" data-v="${x.s}"${x.past||!x.f?' disabled':''}><b>${fmt(x.s)}</b><span>${x.past?'Passed':!x.f?'Full':x.f===1?'Last seat':x.f+' of '+total+' free'}</span></button>`).join(''):'<p class="empty">No more times today. Pick another day.</p>'}
+function renderTicket(){
+  const has=S.start!=null;
+  $('#tConsole').textContent=NAMES[S.type];$('#tDay').textContent=dayLbl(S.day)+', '+dayDate(S.day);
+  $('#tTime').textContent=has?fmt(S.start)+' – '+fmt(S.start+S.dur):'Pick a time';
+  $('#tDur').textContent=durTxt(S.dur);$('#tTotal').textContent=tk(priceOf(S.type,S.dur));
+  $('#go').disabled=!has||S.busy;$('#go').textContent=S.busy?'Booking…':'Confirm booking'}
+function showDone(){const b=S.doneB;$('#tForm').style.display=b?'none':'grid';$('#tDone').hidden=!b;$('#tDone').style.display=b?'grid':'none';
+  if(!b)return;const i=S.days.indexOf(b.date);
+  $('#dCode').textContent=b.code;$('#dSt').textContent=b.station;$('#dDay').textContent=i>=0?dayLbl(i)+', '+dayDate(i):b.date;
+  $('#dTime').textContent=fmt(+b.start)+' – '+fmt(+b.start+ +b.dur);$('#dPay').textContent=tk(b.price)}
+function renderBooker(){
+  document.querySelectorAll('[data-act=type]').forEach(b=>b.classList.toggle('on',b.dataset.v===S.type));
+  $('#p5h').textContent=tk(S.cfg.ps5)+'/hr';$('#p4h').textContent=tk(S.cfg.ps4)+'/hr';
+  $('#days').innerHTML=S.days.map((d,i)=>`<button type="button" class="chip${i===S.day?' on':''}" data-act="day" data-v="${i}">${dayLbl(i)}<small>${dayDate(i)}</small></button>`).join('');
+  $('#durs').innerHTML=DURS.map(d=>`<button type="button" class="chip${d===S.dur?' on':''}" data-act="dur" data-v="${d}">${durTxt(d)}</button>`).join('');
+  renderSlots();renderTicket()}
+function renderFloor(){
+  const date=S.days[0],nm=nowMin(),open=nm>=OPEN&&nm<CLOSE;
+  $('#floor').innerHTML=STATIONS.map(x=>{
+    const bs=live(date).filter(b=>b.station===x.id).sort((a,b)=>a.start-b.start);
+    const cur=bs.find(b=>b.start<=nm&&nm<b.start+b.dur),next=bs.find(b=>b.start>nm);
+    let s,c;if(!open){s=nm<OPEN?'Opens 10:00 am':'Closed for today';c='off'}
+    else if(cur){let end=cur.start+cur.dur;for(const b of bs)if(b.start===end)end+=b.dur;s='Busy till '+fmt(end);c='busy'}
+    else{s=next?'Free till '+fmt(next.start):'Free till close';c='free'}
+    return`<div class="st ${c}"><div class="art"><svg><use href="#${x.t}"/></svg></div><b>${x.id}</b><span class="s">${s}</span><button type="button" class="pill purple" data-act="pick" data-v="${x.t}">Book</button></div>`}).join('')}
+function renderPrices(){$('#pp5').textContent=tk(S.cfg.ps5);$('#pp4').textContent=tk(S.cfg.ps4);$('#pp5h').textContent=tk(S.cfg.ps5/2);$('#pp4h').textContent=tk(S.cfg.ps4/2)}
+function acts(b){const m=(a,t)=>`<button type="button" class="mini" data-act="${a}" data-v="${esc(b.id)}">${t}</button>`;
+  return b.status==='booked'?m('arrived','Arrived')+m('cancel','Cancel'):b.status==='arrived'?m('done','Done')+m('cancel','Cancel'):b.status==='blocked'?m('remove','Remove'):''}
+function renderAdmin(){
+  const on=location.hash==='#admin';document.body.classList.toggle('adm',on);if(!on)return;
+  $('#gate').style.display=S.admin?'none':'';$('#panelA').hidden=!S.admin;if(!S.admin)return;
+  $('#adays').innerHTML=S.days.map((d,i)=>`<button type="button" class="chip${i===S.aDay?' on':''}" data-act="aday" data-v="${i}">${dayLbl(i)}<small>${dayDate(i)}</small></button>`).join('');
+  const all=S.adm.map(b=>({...b,start:+b.start,dur:+b.dur,price:+b.price,status:STL[b.status]?b.status:'booked'}));
+  const act=all.filter(b=>b.status!=='cancelled'),paid=act.filter(b=>b.status!=='blocked');
+  const mins=paid.reduce((s,b)=>s+b.dur,0),rev=paid.reduce((s,b)=>s+b.price,0);
+  $('#stats').innerHTML=[[paid.length,'Bookings'],[(mins/60)+' h','Hours booked'],[tk(rev),'Expected takings'],[Math.round(mins/(STATIONS.length*720)*100)+'%','Seats filled']].map(([v,l])=>`<div class="stat"><b>${esc(v)}</b><span>${l}</span></div>`).join('');
+  const hrs=[10,12,14,16,18,20,22];
+  $('#tl').innerHTML='<div></div><div class="ticks">'+hrs.map((h,i)=>`<span style="left:${(h*60-OPEN)/7.2}%;transform:translateX(${i===0?0:i===hrs.length-1?-100:-50}%)">${h%12||12} ${h>=12&&h<24?'pm':'am'}</span>`).join('')+'</div>'+
+    STATIONS.map(x=>`<div class="lab">${x.id}</div><div class="track">${act.filter(b=>b.station===x.id).map(b=>`<div class="bar ${b.status}" style="left:${(b.start-OPEN)/7.2}%;width:${b.dur/7.2}%" title="${esc(b.name)} · ${fmt(b.start)} – ${fmt(b.start+b.dur)}">${esc(b.status==='blocked'?'Blocked':b.name)}</div>`).join('')}</div>`).join('');
+  $('#list').innerHTML=all.length?all.map(b=>`<tr class="${b.status==='cancelled'?'cx':''}"><td class="n">${fmt(b.start)} – ${fmt(b.start+b.dur)}</td><td>${esc(b.station)}</td><td>${esc(b.name)}<br><small>${esc(b.phone)} ${esc(b.code)}</small></td><td class="n">${b.status==='blocked'?'':tk(b.price)}</td><td><span class="tag t-${b.status}">${STL[b.status]}</span></td><td><div class="acts">${acts(b)}</div></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No bookings this day yet.</td></tr>';
+  if(document.activeElement!==$('#cf5'))$('#cf5').value=S.cfg.ps5;if(document.activeElement!==$('#cf4'))$('#cf4').value=S.cfg.ps4}
+function renderAll(){renderBooker();renderFloor();renderPrices();renderAdmin()}
+
+$('#as').innerHTML=STATIONS.map(x=>`<option>${x.id}</option>`).join('');
+let opts='';for(let s=OPEN;s<CLOSE;s+=STEP)opts+=`<option value="${s}">${fmt(s)}</option>`;$('#at').innerHTML=opts;
+$('#ad').innerHTML=DURS.map(d=>`<option value="${d}"${d===60?' selected':''}>${durTxt(d)}</option>`).join('');
+
+let armed=null;
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,v=b.dataset.v;
+  if(a==='pick'){S.type=v;S.start=null;renderBooker();document.getElementById('book').scrollIntoView()}
+  else if(a==='type'){S.type=v;S.start=null;renderBooker()}
+  else if(a==='day'){S.day=+v;S.start=null;renderBooker()}
+  else if(a==='dur'){S.dur=+v;renderBooker()}
+  else if(a==='slot'){S.start=+v;renderSlots();renderTicket()}
+  else if(a==='again'){S.doneB=null;showDone()}
+  else if(a==='aday'){S.aDay=+v;S.adm=[];renderAdmin();loadAdmin()}
+  else if(a==='refresh'){loadAdmin();loadPublic()}
+  else if(a==='logout'){try{await api('/api/admin/logout',{method:'POST',body:{}})}catch(x){}S.admin=false;renderAdmin()}
+  else if(['arrived','done','cancel','remove'].includes(a)){
+    if((a==='cancel'||a==='remove')&&armed!==b){armed=b;b.textContent='Sure?';setTimeout(()=>{if(armed===b){armed=null;renderAdmin()}},3000);return}
+    armed=null;b.disabled=true;
+    try{if(a==='remove')await api('/api/admin/bookings/'+encodeURIComponent(v),{method:'DELETE'});
+      else await api('/api/admin/bookings/'+encodeURIComponent(v),{method:'PATCH',body:{status:a==='cancel'?'cancelled':a}})}
+    catch(x){}
+    await loadAdmin();loadPublic()}
+});
+$('#bookForm').addEventListener('submit',async e=>{
+  e.preventDefault();const err=$('#err');err.textContent='';
+  const name=$('#nm').value.trim(),ph=$('#ph').value.replace(/[\s-]/g,'').replace(/^\+?88/,'');
+  if(S.start==null){err.textContent='Pick a start time first.';return}
+  if(name.length<2){err.textContent='Add your name.';return}
+  if(!/^01[3-9]\d{8}$/.test(ph)){err.textContent='Enter a valid phone number, like 01712345678.';return}
+  S.busy=true;renderTicket();
+  try{const j=await api('/api/book',{method:'POST',body:{date:S.days[S.day],start:S.start,dur:S.dur,type:S.type,name,phone:ph}});
+    S.doneB=j.booking;S.start=null;e.target.reset();showDone()}
+  catch(x){err.textContent=x.message}
+  S.busy=false;await loadPublic();renderTicket()});
+$('#addForm').addEventListener('submit',async e=>{
+  e.preventDefault();const msg=$('#aerr');msg.style.color='';msg.textContent='';
+  try{await api('/api/admin/bookings',{method:'POST',body:{date:S.days[S.aDay],station:$('#as').value,start:+$('#at').value,dur:+$('#ad').value,kind:$('#ak').value==='blocked'?'blocked':'walkin',name:$('#an').value.trim(),phone:$('#ap').value.trim()}});
+    msg.style.color='var(--mute)';msg.textContent='Added to '+$('#as').value+'.';$('#an').value='';$('#ap').value='';await loadAdmin();loadPublic()}
+  catch(x){msg.textContent=x.message}});
+$('#gateForm').addEventListener('submit',async e=>{
+  e.preventDefault();$('#gerr').textContent='';
+  try{await api('/api/admin/login',{method:'POST',body:{password:$('#pin').value}});$('#pin').value='';S.admin=true;renderAdmin();loadAdmin()}
+  catch(x){$('#gerr').textContent=x.message}});
+$('#cfgForm').addEventListener('submit',async e=>{
+  e.preventDefault();const m=$('#cmsg');
+  try{const j=await api('/api/admin/settings',{method:'PUT',body:{ps5:Math.round(+$('#cf5').value||0),ps4:Math.round(+$('#cf4').value||0)}});S.cfg=j.prices;m.textContent='Saved. New bookings use these prices.';renderAll()}
+  catch(x){m.textContent=x.message}});
+$('#pwForm').addEventListener('submit',async e=>{
+  e.preventDefault();const m=$('#pmsg');m.style.color='';
+  try{await api('/api/admin/password',{method:'POST',body:{current:$('#pw1').value,next:$('#pw2').value}});m.style.color='var(--mute)';m.textContent='Password updated. Other devices are logged out.';e.target.reset()}
+  catch(x){m.textContent=x.message}});
+addEventListener('hashchange',()=>{renderAdmin();if(location.hash==='#admin'){scrollTo(0,0);checkAdmin()}});
+async function checkAdmin(){if(location.hash!=='#admin')return;try{await api('/api/admin/me');S.admin=true;renderAdmin();loadAdmin()}catch(x){S.admin=false;renderAdmin()}}
+setInterval(()=>{if(document.hidden)return;loadPublic();if(location.hash==='#admin')loadAdmin()},20000);
+
+renderAll();showDone();loadPublic();checkAdmin();
+}
+</script>
+</body></html>

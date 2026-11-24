@@ -1,0 +1,14 @@
+{
+  "name": "battle-zone",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 execute battle-zone-db --local --file=./schema.sql",
+    "db:remote": "wrangler d1 execute battle-zone-db --remote --file=./schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.168.0"
+  }
+}
