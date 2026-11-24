@@ -43,7 +43,27 @@ nav .pill{margin-left:8px;min-height:40px;padding:8px 18px}
 .hfacts{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .hfacts span{background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px;font-size:14px;font-weight:500}
 /* stations */
-.grid5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.grid5{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.opt small{display:block;font-size:13px;color:var(--mute)}
+.opt.room{border-style:dashed}
+.step[hidden]{display:none}
+.stepper{display:flex;align-items:center;gap:10px}.stepper b{font:800 22px Montserrat,sans-serif;min-width:110px;text-align:center}
+.stepper button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--panel2);cursor:pointer;font:700 20px Montserrat,sans-serif}
+.total s{color:var(--mute);font:600 16px Roboto,sans-serif;margin-right:8px}
+.offer{display:inline-block;background:var(--pink);color:#fff;font:700 12px Montserrat,sans-serif;padding:3px 10px;border-radius:999px;margin-bottom:14px}
+.pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:18px}
+.pc{background:var(--panel);border:1px solid var(--line);border-radius:24px;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.pc .art{aspect-ratio:16/9;border-radius:0}.pc .art svg{width:55%;height:80%}
+.pc .in{padding:20px;display:grid;gap:10px;align-content:start}
+.pc h3{font-size:24px;font-weight:800}.pc .d{color:var(--mute);margin:0;font-size:14px}
+.pt{width:100%;border-collapse:collapse;font-size:15px}.pt td{padding:8px 0;border-bottom:1px solid var(--line)}.pt td.n{text-align:right;white-space:nowrap}.pt s{color:var(--mute);margin-right:6px;font-size:13px}.pt b{font:800 17px Montserrat,sans-serif}
+.pc .pill{justify-self:start;margin-top:6px}
+.amen{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.am{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px 16px;text-align:center;display:grid;gap:10px;justify-items:center}
+.am svg{width:44px;height:44px;color:var(--p2)}.am b{font:700 15px Montserrat,sans-serif}
+.ptab td{padding:6px 4px}.ptab input{min-height:40px;padding:6px 8px;font-size:15px}.ptab th{font-size:12px}
+.chk{display:flex;align-items:center;gap:10px;color:#fff}.chk input{width:22px;min-height:22px;accent-color:var(--p)}
 .st{display:grid;gap:8px;text-align:center}
 .art{aspect-ratio:1;border-radius:20px;background:radial-gradient(circle at 50% 80%,#3a2370,#120c1e 70%);display:grid;place-items:center;position:relative;overflow:hidden}
 .art svg{width:72%;height:72%}
@@ -140,8 +160,8 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
 .mini{min-height:44px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--panel2);cursor:pointer;font:700 13px Montserrat,sans-serif}
 .adhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .adhead h1{font-size:clamp(30px,4vw,46px);font-weight:800;text-transform:uppercase}
-@media(max-width:980px){.grid5{grid-template-columns:repeat(3,minmax(0,1fr))}.panel,.cols,.banner{grid-template-columns:1fr}.ticket{border-left:0;border-top:1.5px dashed var(--line)}.cons{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}}
-@media(max-width:700px){.visit{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid5{grid-template-columns:repeat(2,minmax(0,1fr))}nav a:not(.pill){display:none}.hero{align-items:end;min-height:600px}}
+@media(max-width:980px){.amen{grid-template-columns:repeat(3,minmax(0,1fr))}.panel,.cols,.banner{grid-template-columns:1fr}.ticket{border-left:0;border-top:1.5px dashed var(--line)}.cons{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.amen{grid-template-columns:repeat(2,minmax(0,1fr))}.visit{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}nav a:not(.pill){display:none}.hero{align-items:end;min-height:600px}}
 @media(max-width:600px){.con{grid-template-columns:1fr}.con .art{min-height:200px}table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:6.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6em;margin-inline-start:-6.5em;color:var(--mute)}.stack td:empty{display:none}}
 @media(prefers-reduced-motion:no-preference){.glow{animation:gl 4s ease-in-out infinite alternate}@keyframes gl{from{opacity:.55}to{opacity:1}}}
 </style>
@@ -165,6 +185,16 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
     <g><circle cx="150" cy="36" r="6" fill="#4fd1ff"/><circle cx="166" cy="50" r="6" fill="#ff4fa3"/><circle cx="134" cy="50" r="6" fill="#ff9f43"/><circle cx="150" cy="64" r="6" fill="#a67dff"/></g>
     <circle cx="76" cy="78" r="14" fill="#0b0a0e" stroke="#47415a" stroke-width="2"/><circle cx="124" cy="78" r="14" fill="#0b0a0e" stroke="#47415a" stroke-width="2"/>
     <rect x="84" y="22" width="32" height="20" rx="5" fill="#1a1720" stroke="#8858ed" stroke-width="1.5" class="glow"/></symbol>
+  <symbol id="race" viewBox="0 0 200 200"><ellipse cx="100" cy="176" rx="70" ry="8" fill="#000" opacity=".5"/>
+    <circle cx="100" cy="92" r="62" fill="none" stroke="#1d1a24" stroke-width="18"/><circle cx="100" cy="92" r="62" fill="none" stroke="#3d3648" stroke-width="2"/>
+    <path d="M44 100h112M100 100v52" stroke="#1d1a24" stroke-width="16" stroke-linecap="round"/><circle cx="100" cy="98" r="20" fill="#14111a" stroke="#8858ed" stroke-width="3" class="glow"/>
+    <rect x="94" y="28" width="12" height="10" rx="3" fill="#ff4fa3"/><rect x="60" y="150" width="80" height="14" rx="6" fill="#120f18"/></symbol>
+  <symbol id="vr" viewBox="0 0 200 200"><ellipse cx="100" cy="160" rx="72" ry="8" fill="#000" opacity=".5"/>
+    <path d="M30 84c0-14 12-26 26-26h88c14 0 26 12 26 26v34c0 14-12 26-26 26h-22l-14-14h-16l-14 14H56c-14 0-26-12-26-26z" fill="url(#g5)"/>
+    <path d="M40 92c0-10 8-18 18-18h84c10 0 18 8 18 18v18c0 10-8 18-18 18H58c-10 0-18-8-18-18z" fill="#15121c"/>
+    <g fill="#e9e4f5"><circle cx="72" cy="101" r="5"/><circle cx="82" cy="111" r="5"/><circle cx="128" cy="101" r="5"/></g>
+    <path d="M30 96h-12M170 96h12" stroke="#d9d2ea" stroke-width="10" stroke-linecap="round"/><rect x="88" y="60" width="24" height="5" rx="2" fill="#8858ed" class="glow"/></symbol>
+  <symbol id="room" viewBox="0 0 200 200"><use href="#ps5" x="10" y="20" width="90" height="90"/><use href="#ps4" x="100" y="10" width="90" height="90"/><use href="#race" x="10" y="100" width="90" height="90"/><use href="#vr" x="100" y="100" width="90" height="90"/></symbol>
   <symbol id="logo" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#fff"/><path d="M14 11h9c4 0 6 2 6 5 0 2-1 3.4-2.6 4 2 .6 3.4 2.2 3.4 4.6 0 3.4-2.6 5.4-6.6 5.4H14z" fill="#060506"/><circle cx="21" cy="16.4" r="1.9" fill="#fff"/><circle cx="21.8" cy="24.4" r="2.1" fill="#fff"/></symbol>
 </defs></svg>
 
@@ -206,11 +236,12 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
   </svg>
   <div class="wrap" style="width:100%">
     <div class="hcard">
-      <p class="kick">Mymensingh's PlayStation lounge</p>
+      <span class="offer">Grand opening offer on now</span>
+      <p class="kick">Gamers' Ultimate Destination</p>
       <h1>Book your seat. Play today.</h1>
-      <p class="sub">Pick a PS5 or PS4, choose your time and walk straight in. 30 minutes minimum.</p>
+      <p class="sub">PS5, PS4, racing simulator and VR at Notun Bazar. Pick your game, choose a time, walk straight in.</p>
       <a class="pill" href="#book">Book a slot</a>
-      <div class="hfacts"><span>Notun Bazar, Mymensingh</span><span>3 × PS5</span><span>2 × PS4</span><span>Open every day, 10 am – 10 pm</span></div>
+      <div class="hfacts"><span>Notun Bazar, Mymensingh</span><span>3 × PS5 · 2 × PS4</span><span>Racing Sim · VR</span><span>Full AC</span><span>Open daily, 10 am – 10 pm</span></div>
     </div>
   </div>
 </section>
@@ -224,11 +255,8 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
   <div class="head"><h2 class="sec">Book your slot</h2></div>
   <div class="panel">
     <div class="pick">
-      <div class="step"><h3>Console</h3>
-        <div class="seg">
-          <button type="button" class="opt" data-act="type" data-v="ps5"><b>PS5</b><span>3 stations · <span id="p5h"></span></span></button>
-          <button type="button" class="opt" data-act="type" data-v="ps4"><b>PS4</b><span>2 stations · <span id="p4h"></span></span></button>
-        </div></div>
+      <div class="step"><h3>What to play</h3><div class="games" id="games"></div></div>
+      <div class="step" id="plStep"><h3 id="plTitle">Players</h3><div id="players"></div></div>
       <div class="step"><h3>Day</h3><div class="chips" id="days"></div></div>
       <div class="step"><h3>How long</h3><div class="chips" id="durs"></div></div>
       <div class="step"><h3>Start time</h3><div class="slots" id="slots"></div></div>
@@ -237,12 +265,13 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
       <div id="tForm" style="display:grid;gap:14px">
         <h2>Your booking</h2>
         <dl class="rows">
-          <div><dt>Console</dt><dd id="tConsole"></dd></div>
+          <div><dt>Game</dt><dd id="tConsole"></dd></div>
+          <div><dt>Players</dt><dd id="tPl"></dd></div>
           <div><dt>Day</dt><dd id="tDay"></dd></div>
           <div><dt>Time</dt><dd id="tTime"></dd></div>
           <div><dt>Length</dt><dd id="tDur"></dd></div>
         </dl>
-        <div class="total"><span>Pay at the counter</span><b id="tTotal"></b></div>
+        <div class="total"><span>Pay at the counter</span><span><s id="tReg"></s><b id="tTotal"></b></span></div>
         <form id="bookForm" novalidate>
           <label for="nm">Your name<input id="nm" autocomplete="name" maxlength="60" placeholder="Rahim"></label>
           <label for="ph">Phone<input id="ph" type="tel" autocomplete="tel" inputmode="numeric" maxlength="16" placeholder="01712345678"></label>
@@ -256,6 +285,7 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
         <div class="code" id="dCode"></div>
         <dl class="rows">
           <div><dt>Station</dt><dd id="dSt"></dd></div>
+          <div><dt>Players</dt><dd id="dPl"></dd></div>
           <div><dt>Day</dt><dd id="dDay"></dd></div>
           <div><dt>Time</dt><dd id="dTime"></dd></div>
           <div><dt>Pay</dt><dd id="dPay"></dd></div>
@@ -268,18 +298,25 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
 </div></section>
 
 <section class="band" id="consoles"><div class="wrap">
-  <div class="head"><h2 class="sec">Choose your console</h2></div>
-  <div class="cons">
-    <div class="con"><div class="art"><svg><use href="#ps5"/></svg></div><div class="txt"><h3>PS5</h3><div class="amt" id="pp5"></div><p>per hour · <span id="pp5h"></span> for 30 min</p><button type="button" class="pill purple" data-act="pick" data-v="ps5">Book PS5</button></div></div>
-    <div class="con"><div class="art"><svg><use href="#ps4"/></svg></div><div class="txt"><h3>PS4</h3><div class="amt" id="pp4"></div><p>per hour · <span id="pp4h"></span> for 30 min</p><button type="button" class="pill purple" data-act="pick" data-v="ps4">Book PS4</button></div></div>
+  <div class="head"><h2 class="sec">Prices</h2><span class="offer" style="margin:0">Grand opening offer</span></div>
+  <div class="pcards" id="pcards"></div>
+</div></section>
+
+<section class="band" id="inside" style="padding-top:0"><div class="wrap">
+  <div class="head"><h2 class="sec">Inside Battle Zone</h2></div>
+  <div class="amen">
+    <div class="am"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v20M4.9 6l14.2 12M19.1 6 4.9 18M2 12h20M9 3l3 2 3-2M9 21l3-2 3 2"/></svg><b>Full AC</b></div>
+    <div class="am"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1.5 13h-9zM9 8V5a3 3 0 0 1 6 0v3M5 8h14"/></svg><b>Snacks &amp; drinks</b></div>
+    <div class="am"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h9M9 21l1-5h5l1 5M10 16c-2-2-3-4-1-7l3-4 3 2-1 3 2 3c0 2-1 3-1 3"/></svg><b>Chess board</b></div>
+    <div class="am"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><path d="M12 12 20 4M17 4h3v3" stroke-linecap="round"/></svg><b>Dart throw</b></div>
+    <div class="am"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 18c-1-4 0-9 4-12 3-2 7-1 9 2 3 3 4 7 3 10-2 2-6 3-9 3s-6-1-7-3z"/><path d="M6 15c3 2 9 2 12 0"/></svg><b>Premium bean bags</b></div>
   </div>
-  
 </div></section>
 
 <section class="band" style="padding-top:0"><div class="wrap">
   <div class="banner">
-    <div><h2>Skip the wait</h2><p>Book online, show your code, start playing. Walk-ins welcome when a seat is free.</p></div>
-    <ol class="steps"><li>Pick console, day and time</li><li>Get your booking code</li><li>Pay at the counter and play</li></ol>
+    <div><h2>Grand opening offer</h2><p>Opening prices on every game. Book online, show your code, pay at the counter. Want the whole place? Book the full room for your squad.</p></div>
+    <ol class="steps"><li>Pick your game, day and time</li><li>Get your booking code</li><li>Pay at the counter and play</li></ol>
   </div>
 </div></section>
 
@@ -287,14 +324,14 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
   <div class="head"><h2 class="sec">Visit Battle Zone</h2></div>
   <div class="visit">
     <div><b>Every day</b><p>10:00 am to 10:00 pm, Friday included.</p></div>
-    <div><b>5 stations</b><p>3 × PS5 and 2 × PS4, ready to play.</p></div>
+    <div><b>7 stations</b><p>3 × PS5, 2 × PS4, a racing simulator and Meta Quest 3S VR.</p></div>
     <div><b>Notun Bazar</b><p>Notun Bazar, Mymensingh. Pay at the counter when you arrive.</p></div>
   </div>
 </div></section>
 
 <footer><div class="wrap">
   <div class="fgrid">
-    <div><a class="brand" href="#home" style="margin-bottom:12px"><svg><use href="#logo"/></svg>BATTLE ZONE</a><p style="color:var(--mute)">PlayStation gaming zone at Notun Bazar, Mymensingh.</p></div>
+    <div><a class="brand" href="#home" style="margin-bottom:12px"><svg><use href="#logo"/></svg>BATTLE ZONE</a><p style="color:var(--mute)">Gamers' Ultimate Destination. Notun Bazar, Mymensingh.</p></div>
     <div><h4>Play</h4><a href="#book">Book a slot</a><a href="#stations">Live floor</a><a href="#consoles">Prices</a></div>
     <div><h4>Hours</h4><p>Every day</p><p>10:00 am – 10:00 pm</p></div>
     <div><h4>Staff</h4><a href="#admin">Staff login</a></div>
@@ -327,13 +364,15 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
         <form class="box" id="addForm"><h3>Walk-in or block</h3>
           <div class="two"><label for="ak">Type<select id="ak"><option value="walkin">Walk-in</option><option value="blocked">Block seat</option></select></label>
           <label for="as">Station<select id="as"></select></label></div>
+          <label for="apl">Players / people<input id="apl" type="number" min="1" max="14" value="1"></label>
           <div class="two"><label for="at">Start<select id="at"></select></label><label for="ad">Length<select id="ad"></select></label></div>
           <label for="an">Name or reason<input id="an" maxlength="60" placeholder="Walk-in"></label>
           <label for="ap">Phone (optional)<input id="ap" type="tel" maxlength="16"></label>
           <p class="err" id="aerr"></p><button class="btn">Add to the day</button>
         </form>
-        <form class="box" id="cfgForm"><h3>Prices per hour</h3>
-          <div class="two"><label for="cf5">PS5 (৳)<input id="cf5" type="number" min="0" step="10"></label><label for="cf4">PS4 (৳)<input id="cf4" type="number" min="0" step="10"></label></div>
+        <form class="box" id="cfgForm"><h3>Prices</h3>
+          <label class="chk"><input type="checkbox" id="cfOffer"> Opening offer is on</label>
+          <div style="overflow-x:auto"><table class="ptab"><thead><tr><th>Item</th><th>Regular ৳</th><th>Offer ৳</th></tr></thead><tbody id="cfRows"></tbody></table></div>
           <p class="err" id="cmsg" style="color:var(--mute)"></p><button class="btn ghost">Save prices</button>
         </form>
         <form class="box" id="pwForm"><h3>Change password</h3>
@@ -350,25 +389,38 @@ tr.cx td:not(:last-child){opacity:.45;text-decoration:line-through}
 <script>
 {
 const OPEN=600,CLOSE=1320,STEP=30;
-const STATIONS=[['PS5-1','ps5'],['PS5-2','ps5'],['PS5-3','ps5'],['PS4-1','ps4'],['PS4-2','ps4']].map(([id,t])=>({id,t}));
-const DURS=[30,60,90,120,180],NAMES={ps5:'PS5',ps4:'PS4'};
+const STATIONS=[['PS5-1','ps5'],['PS5-2','ps5'],['PS5-3','ps5'],['PS4-1','ps4'],['PS4-2','ps4'],['RACE-1','race'],['VR-1','vr']].map(([id,t])=>({id,t}));
+const GAMES=[{k:'ps5',n:'PS5',d:'3 stations'},{k:'ps4',n:'PS4',d:'2 stations'},{k:'race',n:'Racing Sim',d:'PS5 + Logitech G29'},{k:'vr',n:'VR',d:'Meta Quest 3S'},{k:'room',n:'Full room',d:'All 7 stations, private'}];
+const GN=Object.fromEntries(GAMES.map(g=>[g.k,g.n]));
+const STN={'RACE-1':'Racing Sim','VR-1':'VR','ROOM':'Full room'};
+const MAXP={ps5:2,ps4:2,race:1,vr:1};
+const DURS=[30,60,90,120,180];
 const STL={booked:'Booked',arrived:'Playing',done:'Done',cancelled:'Cancelled',blocked:'Blocked'};
+const DEF={offer:true,items:{ps5:{1:{30:[120,100],60:[220,180]},2:{30:[140,120],60:[240,200]}},ps4:{1:{30:[100,80],60:[190,150]},2:{30:[110,90],60:[200,160]}},race:{1:{30:[190,150],60:[300,250]}},vr:{1:{30:[250,200],60:[440,350]}}}};
 const $=s=>document.querySelector(s);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad=n=>String(n).padStart(2,'0');
 const fmt=m=>{let h=Math.floor(m/60);const ap=h>=12&&h<24?'pm':'am';h=h%12||12;return h+':'+pad(m%60)+' '+ap};
 const durTxt=d=>d<60?d+' min':(d/60)+(d===60?' hour':' hours');
 const tk=n=>'৳'+Math.round(n).toLocaleString('en-IN');
-const S={type:'ps5',day:0,dur:60,start:null,pub:[],adm:[],cfg:{ps5:150,ps4:100},days:[],srvMin:null,srvAt:0,admin:false,aDay:0,busy:false,doneB:null};
+const stName=id=>STN[id]||id;
+const S={type:'ps5',players:1,group:6,day:0,dur:60,start:null,pub:[],adm:[],cfg:DEF,days:[],srvMin:null,srvAt:0,admin:false,aDay:0,busy:false,doneB:null};
 {const d=new Date();for(let i=0;i<7;i++){const x=new Date(d);x.setDate(d.getDate()+i);S.days.push(x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate()))}}
 const dObj=i=>new Date(S.days[i]+'T12:00:00');
 const dayLbl=i=>i===0?'Today':i===1?'Tomorrow':dObj(i).toLocaleDateString('en-GB',{weekday:'long'});
 const dayDate=i=>dObj(i).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
 const nowMin=()=>{if(S.srvMin==null){const n=new Date();return n.getHours()*60+n.getMinutes()}return Math.floor(S.srvMin+(Date.now()-S.srvAt)/60000)};
-const priceOf=(t,d)=>Math.round(S.cfg[t]*d/60);
+function priceFor(type,pl,dur,idx){
+  if(type==='room')return STATIONS.reduce((s,x)=>s+priceFor(x.t,MAXP[x.t],dur,idx),0);
+  const t=S.cfg.items?.[type]?.[Math.min(pl,MAXP[type])]||DEF.items[type][1];const h=Math.floor(dur/60);
+  return h*(+t[60][idx]||0)+(dur%60?(+t[30][idx]||0):0)}
+const cur=(t,p,d)=>priceFor(t,p,d,S.cfg.offer?1:0),reg=(t,p,d)=>priceFor(t,p,d,0);
+const plOf=()=>S.type==='room'?S.group:MAXP[S.type]>1?S.players:1;
+const plTxt=(t,p)=>t==='room'?p+(p===1?' person':' people'):MAXP[t]>1?(p===2?'Double (2 players)':'Single (1 player)'):'1 player';
 const live=date=>S.pub.filter(b=>b.date===date);
 const clash=(a,s,d)=>a.start<s+d&&s<a.start+a.dur;
-const freeSt=(date,type,s,d)=>STATIONS.filter(x=>x.t===type&&!live(date).some(b=>b.station===x.id&&clash(b,s,d)));
+const freeSt=(date,type,s,d)=>(type==='room'?STATIONS:STATIONS.filter(x=>x.t===type)).filter(x=>!live(date).some(b=>b.station===x.id&&clash(b,s,d)));
+const freeCount=(date,type,s,d)=>{const f=freeSt(date,type,s,d).length;return type==='room'?(f===STATIONS.length?1:0):f};
 const setMode=t=>{$('#mode').textContent=t};
 
 async function api(path,opt={}){
@@ -376,10 +428,9 @@ async function api(path,opt={}){
   let j={};try{j=await r.json()}catch(e){}
   if(!r.ok){if(r.status===401&&path.startsWith('/api/admin/')&&path!=='/api/admin/login'){S.admin=false;renderAdmin()}throw Object.assign(new Error(j.error||'Something went wrong. Try again.'),{status:r.status})}
   return j}
-
 async function loadPublic(){
   try{const j=await api('/api/public');
-    S.days=j.days;S.srvMin=j.now;S.srvAt=Date.now();S.cfg=j.prices;
+    S.days=j.days;S.srvMin=j.now;S.srvAt=Date.now();if(j.prices&&j.prices.items)S.cfg=j.prices;
     S.pub=(j.busy||[]).map(b=>({date:String(b.date),start:+b.start,dur:+b.dur,station:String(b.station)}));
     setMode('');renderAll()}
   catch(e){setMode("Can't reach the booking server right now. Refresh in a moment.")}}
@@ -387,25 +438,31 @@ async function loadAdmin(){
   if(!S.admin)return;
   try{const j=await api('/api/admin/bookings?date='+encodeURIComponent(S.days[S.aDay]));S.adm=j.bookings||[];renderAdmin()}catch(e){}}
 
+function renderGames(){
+  $('#games').innerHTML=GAMES.map(g=>`<button type="button" class="opt${g.k==='room'?' room':''}${S.type===g.k?' on':''}" data-act="type" data-v="${g.k}"><b>${g.n}</b><span>${g.d}</span><small>from ${tk(cur(g.k,1,30))} / 30 min</small></button>`).join('');
+  const st=$('#plStep');
+  if(S.type==='room'){st.hidden=false;$('#plTitle').textContent='How many people';$('#players').innerHTML=`<div class="stepper"><button type="button" data-act="grp" data-v="-1" aria-label="Fewer people">−</button><b>${S.group} people</b><button type="button" data-act="grp" data-v="1" aria-label="More people">+</button></div>`}
+  else if(MAXP[S.type]>1){st.hidden=false;$('#plTitle').textContent='Players';$('#players').innerHTML='<div class="chips">'+[1,2].map(p=>`<button type="button" class="chip${S.players===p?' on':''}" data-act="pl" data-v="${p}">${p===1?'Single':'Double'}<small>${p} player${p>1?'s':''} · ${tk(cur(S.type,p,60))}/hr</small></button>`).join('')+'</div>'}
+  else st.hidden=true}
 function validStarts(){const date=S.days[S.day],nm=nowMin(),out=[];
-  for(let s=OPEN;s+S.dur<=CLOSE;s+=STEP){const past=S.day===0&&s<nm;out.push({s,past,f:past?0:freeSt(date,S.type,s,S.dur).length})}return out}
+  for(let s=OPEN;s+S.dur<=CLOSE;s+=STEP){const past=S.day===0&&s<nm;out.push({s,past,f:past?0:freeCount(date,S.type,s,S.dur)})}return out}
 function renderSlots(){
-  const total=STATIONS.filter(x=>x.t===S.type).length,list=validStarts();
+  const room=S.type==='room',total=STATIONS.filter(x=>x.t===S.type).length,list=validStarts();
   if(S.start!=null&&!list.some(x=>x.s===S.start&&x.f))S.start=null;
-  $('#slots').innerHTML=list.some(x=>!x.past)?list.map(x=>`<button type="button" class="slot${x.past?' past':!x.f?' full':x.f===1?' low':''}${S.start===x.s?' on':''}" data-act="slot" data-v="${x.s}"${x.past||!x.f?' disabled':''}><b>${fmt(x.s)}</b><span>${x.past?'Passed':!x.f?'Full':x.f===1?'Last seat':x.f+' of '+total+' free'}</span></button>`).join(''):'<p class="empty">No more times today. Pick another day.</p>'}
+  const lab=x=>x.past?'Passed':!x.f?(room?'Not free':'Full'):room?'Available':total===1?'Free':x.f===1?'Last seat':x.f+' of '+total+' free';
+  $('#slots').innerHTML=list.some(x=>!x.past)?list.map(x=>`<button type="button" class="slot${x.past?' past':!x.f?' full':(x.f===1&&total>1&&!room)?' low':''}${S.start===x.s?' on':''}" data-act="slot" data-v="${x.s}"${x.past||!x.f?' disabled':''}><b>${fmt(x.s)}</b><span>${lab(x)}</span></button>`).join(''):'<p class="empty">No more times today. Pick another day.</p>'}
 function renderTicket(){
-  const has=S.start!=null;
-  $('#tConsole').textContent=NAMES[S.type];$('#tDay').textContent=dayLbl(S.day)+', '+dayDate(S.day);
+  const has=S.start!=null,p=plOf(),c=cur(S.type,p,S.dur),r=reg(S.type,p,S.dur);
+  $('#tConsole').textContent=GN[S.type];$('#tPl').textContent=plTxt(S.type,p);$('#tDay').textContent=dayLbl(S.day)+', '+dayDate(S.day);
   $('#tTime').textContent=has?fmt(S.start)+' – '+fmt(S.start+S.dur):'Pick a time';
-  $('#tDur').textContent=durTxt(S.dur);$('#tTotal').textContent=tk(priceOf(S.type,S.dur));
+  $('#tDur').textContent=durTxt(S.dur);$('#tTotal').textContent=tk(c);$('#tReg').textContent=r>c?tk(r):'';
   $('#go').disabled=!has||S.busy;$('#go').textContent=S.busy?'Booking…':'Confirm booking'}
 function showDone(){const b=S.doneB;$('#tForm').style.display=b?'none':'grid';$('#tDone').hidden=!b;$('#tDone').style.display=b?'grid':'none';
   if(!b)return;const i=S.days.indexOf(b.date);
-  $('#dCode').textContent=b.code;$('#dSt').textContent=b.station;$('#dDay').textContent=i>=0?dayLbl(i)+', '+dayDate(i):b.date;
+  $('#dCode').textContent=b.code;$('#dSt').textContent=stName(b.station);$('#dPl').textContent=plTxt(b.type,+b.players||1);$('#dDay').textContent=i>=0?dayLbl(i)+', '+dayDate(i):b.date;
   $('#dTime').textContent=fmt(+b.start)+' – '+fmt(+b.start+ +b.dur);$('#dPay').textContent=tk(b.price)}
 function renderBooker(){
-  document.querySelectorAll('[data-act=type]').forEach(b=>b.classList.toggle('on',b.dataset.v===S.type));
-  $('#p5h').textContent=tk(S.cfg.ps5)+'/hr';$('#p4h').textContent=tk(S.cfg.ps4)+'/hr';
+  renderGames();
   $('#days').innerHTML=S.days.map((d,i)=>`<button type="button" class="chip${i===S.day?' on':''}" data-act="day" data-v="${i}">${dayLbl(i)}<small>${dayDate(i)}</small></button>`).join('');
   $('#durs').innerHTML=DURS.map(d=>`<button type="button" class="chip${d===S.dur?' on':''}" data-act="dur" data-v="${d}">${durTxt(d)}</button>`).join('');
   renderSlots();renderTicket()}
@@ -417,26 +474,37 @@ function renderFloor(){
     let s,c;if(!open){s=nm<OPEN?'Opens 10:00 am':'Closed for today';c='off'}
     else if(cur){let end=cur.start+cur.dur;for(const b of bs)if(b.start===end)end+=b.dur;s='Busy till '+fmt(end);c='busy'}
     else{s=next?'Free till '+fmt(next.start):'Free till close';c='free'}
-    return`<div class="st ${c}"><div class="art"><svg><use href="#${x.t}"/></svg></div><b>${x.id}</b><span class="s">${s}</span><button type="button" class="pill purple" data-act="pick" data-v="${x.t}">Book</button></div>`}).join('')}
-function renderPrices(){$('#pp5').textContent=tk(S.cfg.ps5);$('#pp4').textContent=tk(S.cfg.ps4);$('#pp5h').textContent=tk(S.cfg.ps5/2);$('#pp4h').textContent=tk(S.cfg.ps4/2)}
+    return`<div class="st ${c}"><div class="art"><svg><use href="#${x.t}"/></svg></div><b>${stName(x.id)}</b><span class="s">${s}</span><button type="button" class="pill purple" data-act="pick" data-v="${x.t}">Book</button></div>`}).join('')}
+function renderPrices(){
+  const row=(lbl,t,p,d)=>{const c=cur(t,p,d),r=reg(t,p,d);return`<tr><td>${lbl}</td><td class="n">${r>c?`<s>${tk(r)}</s>`:''}<b>${tk(c)}</b></td></tr>`};
+  const card=(k,title,desc,rows)=>`<div class="pc"><div class="art"><svg><use href="#${k}"/></svg></div><div class="in"><h3>${title}</h3><p class="d">${desc}</p><table class="pt">${rows}</table><button type="button" class="pill purple" data-act="pick" data-v="${k}">Book ${title}</button></div></div>`;
+  const cons=t=>row('Single · 30 min',t,1,30)+row('Single · 1 hour',t,1,60)+row('Double · 30 min',t,2,30)+row('Double · 1 hour',t,2,60);
+  const one=t=>row('30 minutes',t,1,30)+row('1 hour',t,1,60);
+  $('#pcards').innerHTML=card('ps5','PS5','3 stations',cons('ps5'))+card('ps4','PS4','2 stations',cons('ps4'))+card('race','Racing Sim','PS5 + Logitech G29 wheel',one('race'))+card('vr','VR','Meta Quest 3S',one('vr'))+card('room','Full room','All 7 stations, private for your group',row('30 minutes','room',1,30)+row('1 hour','room',1,60))}
 function acts(b){const m=(a,t)=>`<button type="button" class="mini" data-act="${a}" data-v="${esc(b.id)}">${t}</button>`;
   return b.status==='booked'?m('arrived','Arrived')+m('cancel','Cancel'):b.status==='arrived'?m('done','Done')+m('cancel','Cancel'):b.status==='blocked'?m('remove','Remove'):''}
+function renderCfg(){
+  if($('#cfgForm').contains(document.activeElement))return;
+  $('#cfOffer').checked=!!S.cfg.offer;
+  const rows=[];for(const t of ['ps5','ps4','race','vr'])for(const p of (MAXP[t]>1?[1,2]:[1]))for(const d of [30,60])rows.push([t,p,d]);
+  $('#cfRows').innerHTML=rows.map(([t,p,d])=>{const v=S.cfg.items?.[t]?.[p]?.[d]||[0,0];return`<tr><td>${GN[t]}${MAXP[t]>1?(p===2?' double':' single'):''} · ${d===60?'1 hr':'30 min'}</td><td><input type="number" min="0" step="10" data-k="${t}.${p}.${d}.0" value="${+v[0]}"></td><td><input type="number" min="0" step="10" data-k="${t}.${p}.${d}.1" value="${+v[1]}"></td></tr>`}).join('')}
 function renderAdmin(){
   const on=location.hash==='#admin';document.body.classList.toggle('adm',on);if(!on)return;
   $('#gate').style.display=S.admin?'none':'';$('#panelA').hidden=!S.admin;if(!S.admin)return;
   $('#adays').innerHTML=S.days.map((d,i)=>`<button type="button" class="chip${i===S.aDay?' on':''}" data-act="aday" data-v="${i}">${dayLbl(i)}<small>${dayDate(i)}</small></button>`).join('');
-  const all=S.adm.map(b=>({...b,start:+b.start,dur:+b.dur,price:+b.price,status:STL[b.status]?b.status:'booked'}));
+  const all=S.adm.map(b=>({...b,start:+b.start,dur:+b.dur,price:+b.price,players:+b.players||1,status:STL[b.status]?b.status:'booked'}));
   const act=all.filter(b=>b.status!=='cancelled'),paid=act.filter(b=>b.status!=='blocked');
-  const mins=paid.reduce((s,b)=>s+b.dur,0),rev=paid.reduce((s,b)=>s+b.price,0);
-  $('#stats').innerHTML=[[paid.length,'Bookings'],[(mins/60)+' h','Hours booked'],[tk(rev),'Expected takings'],[Math.round(mins/(STATIONS.length*720)*100)+'%','Seats filled']].map(([v,l])=>`<div class="stat"><b>${esc(v)}</b><span>${l}</span></div>`).join('');
+  const seatMins=paid.reduce((s,b)=>s+b.dur*(b.station==='ROOM'?STATIONS.length:1),0),rev=paid.reduce((s,b)=>s+b.price,0);
+  $('#stats').innerHTML=[[paid.length,'Bookings'],[(paid.reduce((s,b)=>s+b.dur,0)/60)+' h','Hours booked'],[tk(rev),'Expected takings'],[Math.round(seatMins/(STATIONS.length*720)*100)+'%','Seats filled']].map(([v,l])=>`<div class="stat"><b>${esc(v)}</b><span>${l}</span></div>`).join('');
   const hrs=[10,12,14,16,18,20,22];
+  const bar=b=>`<div class="bar ${b.status}" style="left:${(b.start-OPEN)/7.2}%;width:${b.dur/7.2}%" title="${esc(b.name)} · ${fmt(b.start)} – ${fmt(b.start+b.dur)}">${esc(b.status==='blocked'?'Blocked':(b.station==='ROOM'?'Room: ':'')+b.name)}</div>`;
   $('#tl').innerHTML='<div></div><div class="ticks">'+hrs.map((h,i)=>`<span style="left:${(h*60-OPEN)/7.2}%;transform:translateX(${i===0?0:i===hrs.length-1?-100:-50}%)">${h%12||12} ${h>=12&&h<24?'pm':'am'}</span>`).join('')+'</div>'+
-    STATIONS.map(x=>`<div class="lab">${x.id}</div><div class="track">${act.filter(b=>b.station===x.id).map(b=>`<div class="bar ${b.status}" style="left:${(b.start-OPEN)/7.2}%;width:${b.dur/7.2}%" title="${esc(b.name)} · ${fmt(b.start)} – ${fmt(b.start+b.dur)}">${esc(b.status==='blocked'?'Blocked':b.name)}</div>`).join('')}</div>`).join('');
-  $('#list').innerHTML=all.length?all.map(b=>`<tr class="${b.status==='cancelled'?'cx':''}"><td class="n">${fmt(b.start)} – ${fmt(b.start+b.dur)}</td><td>${esc(b.station)}</td><td>${esc(b.name)}<br><small>${esc(b.phone)} ${esc(b.code)}</small></td><td class="n">${b.status==='blocked'?'':tk(b.price)}</td><td><span class="tag t-${b.status}">${STL[b.status]}</span></td><td><div class="acts">${acts(b)}</div></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No bookings this day yet.</td></tr>';
-  if(document.activeElement!==$('#cf5'))$('#cf5').value=S.cfg.ps5;if(document.activeElement!==$('#cf4'))$('#cf4').value=S.cfg.ps4}
+    STATIONS.map(x=>`<div class="lab">${x.id}</div><div class="track">${act.filter(b=>b.station===x.id||b.station==='ROOM').map(bar).join('')}</div>`).join('');
+  $('#list').innerHTML=all.length?all.map(b=>`<tr class="${b.status==='cancelled'?'cx':''}"><td class="n">${fmt(b.start)} – ${fmt(b.start+b.dur)}</td><td>${esc(stName(b.station))}</td><td>${esc(b.name)}<br><small>${esc(plTxt(b.type,b.players))} · ${esc(b.phone)} ${esc(b.code)}</small></td><td class="n">${b.status==='blocked'?'':tk(b.price)}</td><td><span class="tag t-${b.status}">${STL[b.status]}</span></td><td><div class="acts">${acts(b)}</div></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No bookings this day yet.</td></tr>';
+  renderCfg()}
 function renderAll(){renderBooker();renderFloor();renderPrices();renderAdmin()}
 
-$('#as').innerHTML=STATIONS.map(x=>`<option>${x.id}</option>`).join('');
+$('#as').innerHTML=STATIONS.map(x=>`<option value="${x.id}">${x.id}</option>`).join('')+'<option value="ROOM">Full room</option>';
 let opts='';for(let s=OPEN;s<CLOSE;s+=STEP)opts+=`<option value="${s}">${fmt(s)}</option>`;$('#at').innerHTML=opts;
 $('#ad').innerHTML=DURS.map(d=>`<option value="${d}"${d===60?' selected':''}>${durTxt(d)}</option>`).join('');
 
@@ -445,6 +513,8 @@ document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,v=b.dataset.v;
   if(a==='pick'){S.type=v;S.start=null;renderBooker();document.getElementById('book').scrollIntoView()}
   else if(a==='type'){S.type=v;S.start=null;renderBooker()}
+  else if(a==='pl'){S.players=+v;renderBooker()}
+  else if(a==='grp'){S.group=Math.max(1,Math.min(14,S.group+ +v));renderGames();renderTicket()}
   else if(a==='day'){S.day=+v;S.start=null;renderBooker()}
   else if(a==='dur'){S.dur=+v;renderBooker()}
   else if(a==='slot'){S.start=+v;renderSlots();renderTicket()}
@@ -467,14 +537,14 @@ $('#bookForm').addEventListener('submit',async e=>{
   if(name.length<2){err.textContent='Add your name.';return}
   if(!/^01[3-9]\d{8}$/.test(ph)){err.textContent='Enter a valid phone number, like 01712345678.';return}
   S.busy=true;renderTicket();
-  try{const j=await api('/api/book',{method:'POST',body:{date:S.days[S.day],start:S.start,dur:S.dur,type:S.type,name,phone:ph}});
+  try{const j=await api('/api/book',{method:'POST',body:{date:S.days[S.day],start:S.start,dur:S.dur,type:S.type,players:plOf(),name,phone:ph}});
     S.doneB=j.booking;S.start=null;e.target.reset();showDone()}
   catch(x){err.textContent=x.message}
   S.busy=false;await loadPublic();renderTicket()});
 $('#addForm').addEventListener('submit',async e=>{
   e.preventDefault();const msg=$('#aerr');msg.style.color='';msg.textContent='';
-  try{await api('/api/admin/bookings',{method:'POST',body:{date:S.days[S.aDay],station:$('#as').value,start:+$('#at').value,dur:+$('#ad').value,kind:$('#ak').value==='blocked'?'blocked':'walkin',name:$('#an').value.trim(),phone:$('#ap').value.trim()}});
-    msg.style.color='var(--mute)';msg.textContent='Added to '+$('#as').value+'.';$('#an').value='';$('#ap').value='';await loadAdmin();loadPublic()}
+  try{await api('/api/admin/bookings',{method:'POST',body:{date:S.days[S.aDay],station:$('#as').value,start:+$('#at').value,dur:+$('#ad').value,players:+$('#apl').value||1,kind:$('#ak').value==='blocked'?'blocked':'walkin',name:$('#an').value.trim(),phone:$('#ap').value.trim()}});
+    msg.style.color='var(--mute)';msg.textContent='Added to '+stName($('#as').value)+'.';$('#an').value='';$('#ap').value='';await loadAdmin();loadPublic()}
   catch(x){msg.textContent=x.message}});
 $('#gateForm').addEventListener('submit',async e=>{
   e.preventDefault();$('#gerr').textContent='';
@@ -482,7 +552,9 @@ $('#gateForm').addEventListener('submit',async e=>{
   catch(x){$('#gerr').textContent=x.message}});
 $('#cfgForm').addEventListener('submit',async e=>{
   e.preventDefault();const m=$('#cmsg');
-  try{const j=await api('/api/admin/settings',{method:'PUT',body:{ps5:Math.round(+$('#cf5').value||0),ps4:Math.round(+$('#cf4').value||0)}});S.cfg=j.prices;m.textContent='Saved. New bookings use these prices.';renderAll()}
+  const items=JSON.parse(JSON.stringify(S.cfg.items||DEF.items));
+  document.querySelectorAll('#cfRows input').forEach(i=>{const [t,p,d,x]=i.dataset.k.split('.');items[t][p][d][+x]=Math.max(0,Math.round(+i.value||0))});
+  try{const j=await api('/api/admin/settings',{method:'PUT',body:{offer:$('#cfOffer').checked,items}});S.cfg=j.prices;m.textContent='Saved. New bookings use these prices.';document.activeElement.blur();renderAll()}
   catch(x){m.textContent=x.message}});
 $('#pwForm').addEventListener('submit',async e=>{
   e.preventDefault();const m=$('#pmsg');m.style.color='';

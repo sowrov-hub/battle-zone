@@ -6,7 +6,32 @@ const DURS = [30, 60, 90, 120, 180];
 const STATIONS = [
   { id: 'PS5-1', t: 'ps5' }, { id: 'PS5-2', t: 'ps5' }, { id: 'PS5-3', t: 'ps5' },
   { id: 'PS4-1', t: 'ps4' }, { id: 'PS4-2', t: 'ps4' },
+  { id: 'RACE-1', t: 'race' }, { id: 'VR-1', t: 'vr' },
 ];
+const TYPES = ['ps5', 'ps4', 'race', 'vr', 'room'];
+const MAXP = { ps5: 2, ps4: 2, race: 1, vr: 1, room: 14 };   // players per station; room = group size
+// [regular, opening offer] in taka, from the shop's price list
+const DEFAULT_PRICES = { offer: true, items: {
+  ps5: { 1: { 30: [120, 100], 60: [220, 180] }, 2: { 30: [140, 120], 60: [240, 200] } },
+  ps4: { 1: { 30: [100, 80], 60: [190, 150] }, 2: { 30: [110, 90], 60: [200, 160] } },
+  race: { 1: { 30: [190, 150], 60: [300, 250] } },
+  vr: { 1: { 30: [250, 200], 60: [440, 350] } },
+} };
+function priceFor(cfg, type, players, dur) {
+  const i = cfg.offer ? 1 : 0;
+  if (type === 'room') return STATIONS.reduce((s, x) => s + priceFor(cfg, x.t, MAXP[x.t], dur), 0);
+  const t = cfg.items[type][Math.min(players, MAXP[type])];
+  return Math.floor(dur / 60) * t[60][i] + (dur % 60 ? t[30][i] : 0);
+}
+function validPrices(c) {
+  if (!c || typeof c !== 'object' || typeof c.offer !== 'boolean' || !c.items) return false;
+  const ok = v => Number.isInteger(v) && v >= 0 && v <= 100000;
+  for (const t of ['ps5', 'ps4', 'race', 'vr'])
+    for (let p = 1; p <= MAXP[t]; p++)
+      for (const d of [30, 60]) { const v = c.items?.[t]?.[p]?.[d]; if (!Array.isArray(v) || v.length !== 2 || !ok(v[0]) || !ok(v[1])) return false; }
+  return true;
+}
+const clampPlayers = (type, n) => Math.max(1, Math.min(MAXP[type], Number.isInteger(n) ? n : 1));
 const STATUSES = ['booked', 'arrived', 'done', 'cancelled'];
 const MAX_UPCOMING_PER_PHONE = 2;
 const SESSION_HOURS = 12;
@@ -71,25 +96,28 @@ const ipOf = req => req.headers.get('CF-Connecting-IP') || 'unknown';
 async function getSetting(db, k) { return (await db.prepare('SELECT v FROM settings WHERE k = ?').bind(k).first())?.v; }
 const setSetting = (db, k, v) => db.prepare('INSERT INTO settings (k, v) VALUES (?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v').bind(k, String(v)).run();
 async function prices(db) {
-  const { results } = await db.prepare("SELECT k, v FROM settings WHERE k IN ('price_ps5','price_ps4')").all();
-  const m = Object.fromEntries(results.map(r => [r.k, +r.v]));
-  return { ps5: m.price_ps5 ?? 150, ps4: m.price_ps4 ?? 100 };
+  const v = await getSetting(db, 'prices');
+  try { const c = JSON.parse(v); if (validPrices(c)) return c; } catch {}
+  return DEFAULT_PRICES;
 }
 async function hitCount(db, key, windowMs) {
   return (await db.prepare('SELECT COUNT(*) n FROM hits WHERE key = ? AND ts > ?').bind(key, Date.now() - windowMs).first()).n;
 }
 const addHit = (db, key) => db.prepare('INSERT INTO hits (key, ts) VALUES (?, ?)').bind(key, Date.now()).run();
 
-const INSERT_BOOKING = `INSERT INTO bookings (id, code, date, start, dur, type, station, name, phone, status, price, source, created, updated)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+const INSERT_BOOKING = `INSERT INTO bookings (id, code, date, start, dur, type, station, players, name, phone, status, price, source, created, updated)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-// Claim every 30-minute block of the seat and insert the booking in one transaction.
+// Claim every 30-minute block of the seat(s) and insert the booking in one transaction.
 // If another booking already holds any block, the whole batch fails and nothing is written.
+// A full-room booking (station ROOM) claims every station.
 async function claim(db, row) {
-  const stmts = [db.prepare(INSERT_BOOKING).bind(row.id, row.code, row.date, row.start, row.dur, row.type, row.station,
+  const stmts = [db.prepare(INSERT_BOOKING).bind(row.id, row.code, row.date, row.start, row.dur, row.type, row.station, row.players,
     row.name, row.phone, row.status, row.price, row.source, row.created, row.updated)];
-  for (let b = row.start; b < row.start + row.dur; b += STEP)
-    stmts.push(db.prepare('INSERT INTO slots (date, station, block, booking_id) VALUES (?, ?, ?, ?)').bind(row.date, row.station, b, row.id));
+  const seats = row.station === 'ROOM' ? STATIONS.map(x => x.id) : [row.station];
+  for (const seat of seats)
+    for (let b = row.start; b < row.start + row.dur; b += STEP)
+      stmts.push(db.prepare('INSERT INTO slots (date, station, block, booking_id) VALUES (?, ?, ?, ?)').bind(row.date, seat, b, row.id));
   try { await db.batch(stmts); return true; }
   catch (e) { if (/UNIQUE|constraint/i.test(String(e?.message || e))) return false; throw e; }
 }
@@ -120,7 +148,8 @@ async function handle(req, env) {
     const days = bookingDays(), now = dhakaNow();
     const { results } = await db.prepare(`SELECT date, start, dur, station FROM bookings
       WHERE date >= ? AND date <= ? AND status != 'cancelled'`).bind(days[0], days[6]).all();
-    return json({ days, now: now.min, prices: await prices(db), busy: results });
+    const busy = results.flatMap(r => r.station === 'ROOM' ? STATIONS.map(x => ({ ...r, station: x.id })) : [r]);
+    return json({ days, now: now.min, prices: await prices(db), busy });
   }
 
   // Public: make a booking. The server picks the seat.
@@ -132,7 +161,8 @@ async function handle(req, env) {
     const { date, start, dur, type } = b;
     const name = clean(b.name, 60), phone = normPhone(b.phone);
     if (!days.includes(date)) return fail(400, 'Pick a day within the next week.');
-    if (!['ps5', 'ps4'].includes(type)) return fail(400, 'Pick PS5 or PS4.');
+    if (!TYPES.includes(type)) return fail(400, 'Pick what you want to play.');
+    const players = clampPlayers(type, b.players);
     if (!validSlot(start, dur)) return fail(400, 'That time is outside opening hours.');
     if (date === now.date && start < now.min) return fail(400, 'That time has already passed.');
     if (name.length < 2) return fail(400, 'Add your name.');
@@ -142,16 +172,17 @@ async function handle(req, env) {
       AND (date > ? OR (date = ? AND start + dur > ?))`).bind(phone, now.date, now.date, now.min).first()).n;
     if (upcoming >= MAX_UPCOMING_PER_PHONE) return fail(409, `You already have ${MAX_UPCOMING_PER_PHONE} bookings coming up.`);
 
-    const pr = await prices(db), t = Date.now();
-    for (const st of STATIONS.filter(x => x.t === type)) {
-      const row = { id: newId(), code: newCode(), date, start, dur, type, station: st.id, name, phone,
-        status: 'booked', price: Math.round(pr[type] * dur / 60), source: 'online', created: t, updated: t };
+    const pr = await prices(db), t = Date.now(), price = priceFor(pr, type, players, dur);
+    const seats = type === 'room' ? ['ROOM'] : STATIONS.filter(x => x.t === type).map(x => x.id);
+    for (const station of seats) {
+      const row = { id: newId(), code: newCode(), date, start, dur, type, station, players, name, phone,
+        status: 'booked', price, source: 'online', created: t, updated: t };
       if (await claim(db, row)) {
         await addHit(db, 'book:' + ip);
-        return json({ booking: { code: row.code, station: row.station, date, start, dur, price: row.price } }, 201);
+        return json({ booking: { code: row.code, station, type, players, date, start, dur, price } }, 201);
       }
     }
-    return fail(409, 'That time just filled up. Pick another.');
+    return fail(409, type === 'room' ? 'The full room is not free at that time. Pick another.' : 'That time just filled up. Pick another.');
   }
 
   // Admin login / logout
@@ -188,15 +219,16 @@ async function handle(req, env) {
 
     if (m === 'POST' && p === '/api/admin/bookings') {
       const b = await readJson(req);
-      const st = STATIONS.find(x => x.id === b.station);
+      const st = b.station === 'ROOM' ? { id: 'ROOM', t: 'room' } : STATIONS.find(x => x.id === b.station);
       if (!isDate(b.date) || !st) return fail(400, 'Pick a day and a station.');
       if (!validSlot(b.start, b.dur)) return fail(400, 'That runs outside opening hours.');
       const blocked = b.kind === 'blocked', t = Date.now(), pr = await prices(db);
-      const row = { id: newId(), code: blocked ? '' : newCode(), date: b.date, start: b.start, dur: b.dur, type: st.t, station: st.id,
+      const players = clampPlayers(st.t, b.players);
+      const row = { id: newId(), code: blocked ? '' : newCode(), date: b.date, start: b.start, dur: b.dur, type: st.t, station: st.id, players,
         name: clean(b.name, 60) || (blocked ? 'Blocked' : 'Walk-in'), phone: clean(normPhone(b.phone), 16),
-        status: blocked ? 'blocked' : 'arrived', price: blocked ? 0 : Math.round(pr[st.t] * b.dur / 60),
+        status: blocked ? 'blocked' : 'arrived', price: blocked ? 0 : priceFor(pr, st.t, players, b.dur),
         source: blocked ? 'block' : 'walk-in', created: t, updated: t };
-      if (!(await claim(db, row))) return fail(409, `${st.id} is already taken at that time.`);
+      if (!(await claim(db, row))) return fail(409, st.id === 'ROOM' ? 'Some stations are taken at that time.' : `${st.id} is already taken at that time.`);
       return json({ booking: row }, 201);
     }
 
@@ -219,10 +251,11 @@ async function handle(req, env) {
 
     if (m === 'PUT' && p === '/api/admin/settings') {
       const b = await readJson(req);
-      const ok = v => Number.isInteger(v) && v >= 0 && v <= 100000;
-      if (!ok(b.ps5) || !ok(b.ps4)) return fail(400, 'Prices must be whole taka.');
-      await setSetting(db, 'price_ps5', b.ps5); await setSetting(db, 'price_ps4', b.ps4);
-      return json({ prices: await prices(db) });
+      if (!validPrices(b)) return fail(400, 'Prices must be whole taka.');
+      const clean = { offer: b.offer, items: {} };
+      for (const t of ['ps5', 'ps4', 'race', 'vr']) { clean.items[t] = {}; for (let p = 1; p <= MAXP[t]; p++) clean.items[t][p] = { 30: b.items[t][p][30], 60: b.items[t][p][60] }; }
+      await setSetting(db, 'prices', JSON.stringify(clean));
+      return json({ prices: clean });
     }
 
     if (m === 'POST' && p === '/api/admin/password') {
@@ -235,11 +268,11 @@ async function handle(req, env) {
     }
 
     if (m === 'GET' && p === '/api/admin/export.csv') {
-      const { results } = await db.prepare('SELECT code, date, start, dur, station, name, phone, status, price, source, created FROM bookings ORDER BY date, start').all();
+      const { results } = await db.prepare('SELECT code, date, start, dur, type, station, players, name, phone, status, price, source, created FROM bookings ORDER BY date, start').all();
       const hm = n => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
       const q = v => { let s = String(v ?? ''); if (/^[=+\-@]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
-      const csv = ['Code,Date,Start,End,Station,Name,Phone,Status,Price,Source,Created']
-        .concat(results.map(r => [r.code, r.date, hm(r.start), hm(r.start + r.dur), r.station, r.name, r.phone, r.status, r.price, r.source, new Date(r.created).toISOString()].map(q).join(',')))
+      const csv = ['Code,Date,Start,End,Game,Station,Players,Name,Phone,Status,Price,Source,Created']
+        .concat(results.map(r => [r.code, r.date, hm(r.start), hm(r.start + r.dur), r.type, r.station, r.players, r.name, r.phone, r.status, r.price, r.source, new Date(r.created).toISOString()].map(q).join(',')))
         .join('\r\n');
       return new Response('﻿' + csv, { headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="battle-zone-bookings.csv"', ...SEC } });
     }
